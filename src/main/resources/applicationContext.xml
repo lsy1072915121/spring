@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+  <!--设值注入-->
+  <bean class="com.liushiyao.spring.pojo.xml.User" id="user">
+    <property name="name" value="liushiyao"/>
+    <property name="age">
+      <value>19</value>
+    </property>
+    <property name="score">
+      <value>100</value>
+    </property>
+
+  </bean>
+  <!--构造器注入-->
+  <bean class="com.liushiyao.spring.pojo.xml.User" id="user1">
+    <constructor-arg index="0" value="liushiyao2" name="name" type="java.lang.String"></constructor-arg>
+    <constructor-arg index="1" value="123" type="java.lang.Integer"></constructor-arg>
+    <constructor-arg index="2" value="123" type="java.lang.Integer"></constructor-arg>
+  </bean>
+
+  <bean class="com.liushiyao.spring.pojo.xml.Student" id="student">
+
+    <property name="id">
+      <value type="java.lang.String">1072</value>
+    </property>
+
+    <property name="userList">
+      <list value-type="com.liushiyao.spring.pojo.xml.User" >
+        <ref bean="user"></ref>
+        <ref bean="user1"></ref>
+      </list>
+    </property>
+
+  </bean>
+
+
+</beans>

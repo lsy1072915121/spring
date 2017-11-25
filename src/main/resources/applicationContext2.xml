@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+
+
+
+<!--配置引用通知-->
+  <!--<bean id="myMethodBeforeAndAfter" class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+    <property name="advice" ref="myMethodBefore" ></property>
+
+  </bean>-->
+
+
+  <!--前置后置通知注入-->
+
+  <bean id="myMethodBefore" class="com.liushiyao.spring.aop.xml.MyMethodBefore"></bean>
+  <bean id="myMethodAfter" class="com.liushiyao.spring.aop.xml.MyMethodAfter"></bean>
+  <bean id="myMethodAround" class="com.liushiyao.spring.aop.xml.MyMethodAround"></bean>
+  <!--配置被代理对象-->
+  <bean class="com.liushiyao.spring.aop.xml.ServiceImp" id="serviceImp">
+    <property name="name" value="liushiyao"></property>
+    <property name="id" value="123"></property>
+
+  </bean>
+
+  <!--配置代理对象(使用的是代理对象，代理模式)-->
+  <bean class="org.springframework.aop.framework.ProxyFactoryBean" id="proxyFactoryBean">
+    <!--代理接口集-->
+    <property name="proxyInterfaces">
+      <list>
+        <!-- 需要写绝对地址(注意标点) -->
+        <value>com.liushiyao.spring.aop.xml.MyService</value>
+      </list>
+    </property>
+
+    <!-- 把通知织入代理对象 -->
+    <property name="interceptorNames">
+      <!--相当于把MyMethodBefore与代理对象关联起来（可以理解为拦截器）-->
+      <!-- 这里不需要写绝对地址,否者会报错 -->
+      <!-- 当属性值超过一个时，需要使用list集合进行修饰 -->
+      <list>
+        <value>myMethodBefore</value>
+        <value>myMethodAfter</value>
+        <value>myMethodAround</value>
+      </list>
+    </property>
+    <!--设置代理对象-->
+    <property name="target" ref="serviceImp">
+    </property>
+
+
+
+
+  </bean>
+
+</beans>
